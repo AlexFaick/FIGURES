@@ -5,16 +5,21 @@
  */
 package trazofiguras;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 public class Draws  extends JPanel{
     private JFrame ventana;
     private Container contenedor;
-    
+    Stroke stroke = new BasicStroke(2f);
+    float[] dashingPattern1 = {2f, 2f};
 public Draws(){
  ventana = new JFrame("FIGURAS");
  ventana.setSize(750, 415);
@@ -33,8 +38,23 @@ public Draws(){
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        
-        
+      //antialiasing para eliminar dientes de sierra
+      Graphics2D g2d = (Graphics2D) g;
+      
+      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+      RenderingHints.VALUE_ANTIALIAS_ON);
+      //para el texto
+      g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON); 
+      
+      //tamaño del pincel
+      g2d.setStroke(new BasicStroke(3f));
+      
+//      Stroke stroke1 = new BasicStroke(2f, BasicStroke.CAP_BUTT,
+//      BasicStroke.JOIN_MITER, 1.0f, dashingPattern1, 2.0f);
+      
+      g2d.setStroke(stroke);
+      
        //dibujo de cuadros
         g.drawRect(10, 10, 200, 150);
         
@@ -61,8 +81,9 @@ public Draws(){
         
       //tercer dibujo  
       g.setColor(Color.black);
-  
-      g.drawRect(490, 10, 200, 150);
+      
+      g2d.drawRect(490, 10, 200, 150);
+      
       g.setColor(Color.GRAY);
       g.drawRoundRect(540, 60,100, 30,100,90);
       g.drawRoundRect(560, 40,60, 30,100,90);
@@ -109,6 +130,8 @@ public Draws(){
       g.drawLine(580, 240, 630, 240);
       
       g.drawString("DIBUJO DE TRIANGULOS ",496,365);
+      
+      
       
       
         
